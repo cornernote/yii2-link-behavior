@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "cornernote\\cachebehavior\\": "src"
+            "cornernote\\linkbehavior\\": "src"
         }
     }
 }
