@@ -1,7 +1,7 @@
 {
-    "name": "cornernote/yii2-cache-behavior",
-    "description": "Cache behavior for Yii2.",
-    "keywords": ["yii2", "cache"],
+    "name": "cornernote/yii2-link-behavior",
+    "description": "Link behavior for Yii2.",
+    "keywords": ["yii2", "link"],
     "type": "yii2-behavior",
     "license": "BSD-3-Clause",
     "authors": [
