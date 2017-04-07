@@ -15,6 +15,8 @@ use yii\db\ActiveRecord;
 use yii\db\BaseActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Inflector;
+use yii\helpers\StringHelper;
 
 /**
  * LinkBehavior
@@ -29,6 +31,12 @@ use yii\helpers\Html;
  *     ];
  * }
  * ```
+ *
+ * @property string|array $url
+ * @property string $link
+ * @property string $linkText
+ * @property string $controllerName
+ * @property string $primaryKeyString
  *
  * @property ActiveRecord|LinkBehavior $owner
  */
@@ -59,7 +67,7 @@ class LinkBehavior extends Behavior
     {
         if ($this->_controllerName)
             return $this->_controllerName;
-        return $this->_controllerName = lcfirst(get_class($this->owner));
+        return $this->_controllerName = Inflector::slug(StringHelper::basename($this->owner->className()));
     }
 
     /**
@@ -77,24 +85,7 @@ class LinkBehavior extends Behavior
      *
      * @return string
      */
-    public function getName()
-    {
-        if (isset($this->owner->attributes['name'])) {
-            return $this->owner->attributes['name'];
-        }
-        if (isset($this->owner->attributes['title'])) {
-            return $this->owner->attributes['title'];
-        }
-        return $this->owner->getIdString();
-    }
-
-    /**
-     * The name and id of the model
-     * eg: ActiveRecord-123
-     *
-     * @return string
-     */
-    public function getIdString()
+    public function getLinkText()
     {
         return $this->owner->className() . '-' . $this->owner->getPrimaryKeyString();
     }
@@ -120,16 +111,16 @@ class LinkBehavior extends Behavior
      * Returns a Link to the model
      *
      * @param string $title
-     * @param string $urlAction
-     * @param array $urlParams
-     * @param array $linkOptions
+     * @param string $action
+     * @param array $params
+     * @param array $options
      * @return string
      */
-    public function getLink($title = null, $urlAction = null, $urlParams = [], $linkOptions = [])
+    public function getLink($title = null, $action = null, $params = [], $options = [])
     {
         if ($title === null)
-            $title = $this->owner->getName();
-        return Html::a($title, $this->owner->getUrl($urlAction, $urlParams), $linkOptions);
+            $title = $this->owner->linkText;
+        return Html::a($title, $this->owner->getUrl($action, $params), $options);
     }
 
     /**
