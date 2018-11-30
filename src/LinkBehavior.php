@@ -67,7 +67,7 @@ class LinkBehavior extends Behavior
     {
         if ($this->_controllerName)
             return $this->_controllerName;
-        return $this->_controllerName = Inflector::slug(StringHelper::basename($this->owner->className()));
+        return $this->_controllerName = Inflector::slug(Inflector::camel2words(StringHelper::basename($this->owner->className())));
     }
 
     /**
